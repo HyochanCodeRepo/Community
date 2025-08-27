@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Project - 사람이 좋아 함께하는 곳!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* 헤더 영역 */
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+            padding: 10px 0;
+        }
+
+        .header-top {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .search-area {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 12px 15px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-btn:hover {
+            background: #555;
+        }
+
+        /* 네비게이션 바 */
+        .nav-bar {
+            background: #555;
+            margin-top: 10px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .nav-item {
+            flex: 1;
+            background: #666;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            border-right: 1px solid #555;
+        }
+
+        .nav-item:last-child {
+            border-right: none;
+        }
+
+        .nav-item:hover {
+            background: #777;
+        }
+
+        /* 메인 컨테이너 */
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* 배너 영역 */
+        .banner {
+            background: linear-gradient(45deg, #4285f4, #34a853);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 20px;
+        }
+
+        .banner h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* 게시물 리스트 */
+        .post-section {
+            padding: 20px;
+        }
+
+        .post-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+
+        .post-item:hover {
+            background: #f9f9f9;
+        }
+
+        .post-icon {
+            width: 20px;
+            margin-right: 10px;
+            color: #ff6b6b;
+        }
+
+        .post-title {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .post-title:hover {
+            color: #4285f4;
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: #999;
+            margin-left: 10px;
+        }
+
+        .post-comments {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        /* 게시판 섹션 */
+        .board-sections {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .section-tabs {
+            display: flex;
+            background: #f1f3f4;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .section-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-right: 1px solid #ddd;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .section-tab:last-child {
+            border-right: none;
+        }
+
+        .section-tab:hover,
+        .section-tab.active {
+            background: white;
+            color: #4285f4;
+            font-weight: bold;
+        }
+
+        .section-content {
+            padding: 15px 20px;
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .section-post {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .section-post:last-child {
+            border-bottom: none;
+        }
+
+        .section-post-title {
+            flex: 1;
+            font-size: 13px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .section-post-title:hover {
+            color: #4285f4;
+        }
+
+        .section-post-count {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* 사이드바 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-section {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .sidebar-content {
+            padding: 15px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-item-thumb {
+            width: 60px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            margin-right: 10px;
+            background-size: cover;
+        }
+
+        .sidebar-item-content {
+            flex: 1;
+        }
+
+        .sidebar-item-title {
+            font-size: 12px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .sidebar-item-title:hover {
+            color: #4285f4;
+        }
+
+        .sidebar-item-meta {
+            font-size: 10px;
+            color: #999;
+        }
+
+        /* 광고 배너 */
+        .ad-banner {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .ad-banner h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .ad-banner p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+<!-- 헤더 -->
+<div class="header">
+    <div class="header-top">
+        <div class="logo">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='40' viewBox='0 0 150 40'%3E%3Crect width='150' height='40' fill='%23fff' stroke='%23ddd' stroke-width='1' rx='5'/%3E%3Ctext x='75' y='25' text-anchor='middle' fill='%23666' font-size='12' font-family='Arial'%3ELOGO IMAGE%3C/text%3E%3C/svg%3E" alt="로고">
+        </div>
+        <div class="search-area">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="사람이 좋아 함께하는 곳, Community Project!">
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-item">공구</div>
+            <div class="nav-item">이벤트</div>
+            <div class="nav-item">정보</div>
+            <div class="nav-item">커뮤니티</div>
+            <div class="nav-item">갤러리</div>
+            <div class="nav-item">장터</div>
+            <div class="nav-item">포럼</div>
+            <div class="nav-item">뉴스</div>
+            <div class="nav-item">상담소</div>
+        </div>
+    </div>
+</div>
+
+<!-- 메인 컨테이너 -->
+<div class="main-container">
+    <!-- 메인 콘텐츠 -->
+    <div class="main-content">
+        <!-- 배너 -->
+        <div class="banner">
+            <h2>쉿! Community Project 회원에게만 드리는</h2>
+            <p>G마켓 완전독점 깜짝혜택</p>
+            <p>원목 침대 최대 3만원 • 신박신시</p>
+        </div>
+
+        <!-- 최신 게시물 -->
+        <div class="post-section">
+            <div class="post-item">
+                <div class="post-icon">🔥</div>
+                <a href="#" class="post-title">[통무원] 컴뽐 ※ 폰무원 7월 전세품 15% 할인! 한여름 더워해도 고맙잖아! 건강 식단 기...</a>
+                <span class="post-meta">
+                        <span class="post-comments">[4]</span>
+                        <span>인직디키강</span>
+                    </span>
+            </div>
+
+            <div class="post-item">
+                <div class="post-icon">🏷️</div>
+                <a href="#" class="post-title">[ebay] 8월 ebay 즐석화 이벤트 안내</a>
+                <span class="post-meta">공근신용</span>
+            </div>
+
+            <div class="post-item">
+                <div class="post-icon">🏷️</div>
+                <a href="#" class="post-title">8월 한정) 180,000원 = 타이어 4본</a>
+                <span class="post-meta">달군콘</span>
+            </div>
+
+            <div class="post-item">
+                <div class="post-icon">🏷️</div>
+                <a href="#" class="post-title">만가에서 유명하는 초간단 맛볼래는 방법</a>
+                <span class="post-meta">쿨갑콘</span>
+            </div>
+
+            <div class="post-item">
+                <div class="post-icon">🏷️</div>
+                <a href="#" class="post-title">존시아 스다드툴 | 여행 속 출고기| 친구들이 진짜로 좋차와는 스마트돌 | 명상...</a>
+                <span class="post-meta">골각콘</span>
+            </div>
+
+            <div class="post-item">
+                <div class="post-icon">💰</div>
+                <a href="#" class="post-title">이번에 일병지우일가 다시 돈여주는 100% 달칠 이팬브〈~8/29〉</a>
+                <span class="post-meta">마가끽</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <!-- 게시판 섹션 -->
+        <div class="board-sections">
+
+            <div class="section-header">게시판</div>
+            <div class="section-tabs login-box">
+                <div class="section-tab active">로그인</div>
+                <div class="login-form">
+                    <input type="text" placeholder="아이디" class="login-input">
+                    <input type="password" placeholder="비밀번호" class="login-input">
+                    <button class="login-btn">로그인</button>
+                </div>
+            </div>
+
+
+            <div class="section-header">게시판</div>
+            <div class="section-tabs">
+                <div class="section-tab active" onclick="showSection('hot')">인기글</div>
+                <div class="section-tab" onclick="showSection('new')">최신글</div>
+            </div>
+
+            <!-- 인기글 섹션 -->
+            <div class="section-content active" id="hot">
+                <div class="section-post">
+                    <a href="#" class="section-post-title">진짜 스킹이 다드리는 도경일 아나운서</a>
+                    <span class="section-post-count">50</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">고속도로 휴게소 잡금을 나늘 근황</a>
+                    <span class="section-post-count">53</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">배구 세계선수권 우리나라 초월성</a>
+                    <span class="section-post-count">29</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">나물리 맛피저가 알짖주는 상납자</a>
+                    <span class="section-post-count">52</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">작가가 사실생를 인해받다는 드라</a>
+                    <span class="section-post-count">65</span>
+                </div>
+            </div>
+
+            <!-- 최신글 섹션 -->
+            <div class="section-content" id="new">
+                <div class="section-post">
+                    <a href="#" class="section-post-title">HD영대출현대마포 한벵.. 밥사마스가 거낙방 '조선 재갱'</a>
+                    <span class="section-post-count">2</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">"다슬엘 굴 만나자" 깜빵생활 영성월화...술욤김까지, LAD</a>
+                    <span class="section-post-count">8</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">"결나 인륙 구측 상시 후 서울구지스 화하는 한덱수 IT시"</a>
+                    <span class="section-post-count">15</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">죽, 3넷 6일 수북 주리..안딥 시러, 경제능풍 경핑 간칠</a>
+                    <span class="section-post-count">3</span>
+                </div>
+                <div class="section-post">
+                    <a href="#" class="section-post-title">검부도 구욕    현디응용의    엘드의    들을 킬    술욤킬 서</a>
+                    <span class="section-post-count">7</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 커뮤니티 인기글 -->
+        <div class="sidebar-section">
+            <div class="sidebar-header">커뮤니티 인기글</div>
+            <div class="sidebar-content">
+                <div class="sidebar-item">
+                    <div class="sidebar-item-thumb" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2240%22 viewBox=%220 0 60 40%22><rect width=%2260%22 height=%2240%22 fill=%22%23ddd%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2210%22>IMG</text></svg>')"></div>
+                    <div class="sidebar-item-content">
+                        <a href="#" class="sidebar-item-title">진짜 스킹이 다드리는 도경일 아나운서 .mp4</a>
+                        <div class="sidebar-item-meta">유머/갤즈</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-item">
+                    <div class="sidebar-item-thumb" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2240%22 viewBox=%220 0 60 40%22><rect width=%2260%22 height=%2240%22 fill=%22%23ddd%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2210%22>IMG</text></svg>')"></div>
+                    <div class="sidebar-item-content">
+                        <a href="#" class="sidebar-item-title">어젯잘 답테냅저 경청눈를 넣진 .rfa</a>
+                        <div class="sidebar-item-meta">유머/갤즈</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-item">
+                    <div class="sidebar-item-thumb" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2240%22 viewBox=%220 0 60 40%22><rect width=%2260%22 height=%2240%22 fill=%22%23ddd%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2210%22>IMG</text></svg>')"></div>
+                    <div class="sidebar-item-content">
+                        <a href="#" class="sidebar-item-title">고속도로 휴게소 잡금을 나늘 근황...</a>
+                        <div class="sidebar-item-meta">유머/갤즈</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-item">
+                    <div class="sidebar-item-thumb" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2240%22 viewBox=%220 0 60 40%22><rect width=%2260%22 height=%2240%22 fill=%22%23ddd%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2210%22>IMG</text></svg>')"></div>
+                    <div class="sidebar-item-content">
+                        <a href="#" class="sidebar-item-title">배구 세계선수권 우리나라 초월성</a>
+                        <div class="sidebar-item-meta">스포츠직</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-item">
+                    <div class="sidebar-item-thumb" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2240%22 viewBox=%220 0 60 40%22><rect width=%2260%22 height=%2240%22 fill=%22%23ddd%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2210%22>IMG</text></svg>')"></div>
+                    <div class="sidebar-item-content">
+                        <a href="#" class="sidebar-item-title">나물리 맛피저가 알짖주는 상납자...</a>
+                        <div class="sidebar-item-meta">자유갤</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 광고 배너 -->
+        <div class="ad-banner">
+            <h3>유효한인</h3>
+            <p>50만원 지원<br>축시 업인</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showSection(sectionName) {
+        // 모든 탭 비활성화
+        document.querySelectorAll('.section-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // 모든 콘텐츠 숨기기
+        document.querySelectorAll('.section-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // 클릭된 탭 활성화
+        event.target.classList.add('active');
+
+        // 해당 콘텐츠 보이기
+        document.getElementById(sectionName).classList.add('active');
+    }
+
+    // 메뉴 클릭 이벤트 (나중에 백엔드 연동시 사용)
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+            console.log('메뉴 클릭:', this.textContent);
+            // 여기에 백엔드 API 호출 로직 추가
+        });
+    });
+
+    // 검색 기능 (나중에 백엔드 연동시 사용)
+    document.querySelector('.search-btn').addEventListener('click', function() {
+        const query = document.querySelector('.search-input').value;
+        console.log('검색어:', query);
+        // 여기에 검색 API 호출 로직 추가
+    });
+
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const query = this.value;
+            console.log('검색어:', query);
+            // 여기에 검색 API 호출 로직 추가
+        }
+    });
+</script>
+</body>
+</html>
