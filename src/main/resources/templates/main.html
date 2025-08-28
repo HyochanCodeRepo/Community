@@ -183,6 +183,90 @@
             font-weight: bold;
         }
 
+        /* 사이드바 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-section {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .sidebar-content {
+            padding: 15px;
+        }
+
+        /* 로그인 박스 스타일 */
+        .login-box {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .login-form {
+            padding: 20px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #3367d6;
+        }
+
+        .login-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        .login-links a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .login-links a:hover {
+            color: #4285f4;
+        }
+
         /* 게시판 섹션 */
         .board-sections {
             background: white;
@@ -260,31 +344,6 @@
         .section-post-count {
             font-size: 11px;
             color: #999;
-        }
-
-        /* 사이드바 */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .sidebar-section {
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .sidebar-header {
-            background: #f8f9fa;
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .sidebar-content {
-            padding: 15px;
         }
 
         .sidebar-item {
@@ -365,7 +424,7 @@
 
     <div class="nav-bar">
         <div class="nav-container">
-            <div class="nav-item">공구</div>
+            <div class="nav-item"><a href="/gong9">공구</a></div>
             <div class="nav-item">이벤트</div>
             <div class="nav-item">정보</div>
             <div class="nav-item">커뮤니티</div>
@@ -434,20 +493,22 @@
 
     <!-- 사이드바 -->
     <div class="sidebar">
-        <!-- 게시판 섹션 -->
-        <div class="board-sections">
-
-            <div class="section-header">게시판</div>
-            <div class="section-tabs login-box">
-                <div class="section-tab active">로그인</div>
-                <div class="login-form">
-                    <input type="text" placeholder="아이디" class="login-input">
-                    <input type="password" placeholder="비밀번호" class="login-input">
-                    <button class="login-btn">로그인</button>
+        <!-- 로그인 박스 -->
+        <div class="login-box sidebar-section">
+            <div class="sidebar-header">로그인</div>
+            <div class="login-form">
+                <input type="text" placeholder="아이디" class="login-input">
+                <input type="password" placeholder="비밀번호" class="login-input">
+                <button class="login-btn">로그인</button>
+                <div class="login-links">
+                    <a href="#">회원가입</a>
+                    <a href="#">ID/PW 찾기</a>
                 </div>
             </div>
+        </div>
 
-
+        <!-- 게시판 섹션 -->
+        <div class="board-sections">
             <div class="section-header">게시판</div>
             <div class="section-tabs">
                 <div class="section-tab active" onclick="showSection('hot')">인기글</div>
@@ -557,47 +618,5 @@
     </div>
 </div>
 
-<script>
-    function showSection(sectionName) {
-        // 모든 탭 비활성화
-        document.querySelectorAll('.section-tab').forEach(tab => {
-            tab.classList.remove('active');
-        });
-
-        // 모든 콘텐츠 숨기기
-        document.querySelectorAll('.section-content').forEach(content => {
-            content.classList.remove('active');
-        });
-
-        // 클릭된 탭 활성화
-        event.target.classList.add('active');
-
-        // 해당 콘텐츠 보이기
-        document.getElementById(sectionName).classList.add('active');
-    }
-
-    // 메뉴 클릭 이벤트 (나중에 백엔드 연동시 사용)
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function() {
-            console.log('메뉴 클릭:', this.textContent);
-            // 여기에 백엔드 API 호출 로직 추가
-        });
-    });
-
-    // 검색 기능 (나중에 백엔드 연동시 사용)
-    document.querySelector('.search-btn').addEventListener('click', function() {
-        const query = document.querySelector('.search-input').value;
-        console.log('검색어:', query);
-        // 여기에 검색 API 호출 로직 추가
-    });
-
-    document.querySelector('.search-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const query = this.value;
-            console.log('검색어:', query);
-            // 여기에 검색 API 호출 로직 추가
-        }
-    });
-</script>
 </body>
 </html>

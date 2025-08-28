@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공구 게시판 - Community Project</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Malgun Gothic', sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    /* 헤더 영역 */
+    .header {
+      background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+      padding: 10px 0;
+    }
+
+    .header-top {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .search-area {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box {
+      display: flex;
+      background: white;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .search-input {
+      width: 300px;
+      padding: 12px 15px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search-btn {
+      background: #666;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .search-btn:hover {
+      background: #555;
+    }
+
+    /* 네비게이션 바 */
+    .nav-bar {
+      background: #555;
+      margin-top: 10px;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+    }
+
+    .nav-item {
+      flex: 1;
+      background: #666;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      cursor: pointer;
+      transition: background 0.3s;
+      border-right: 1px solid #555;
+    }
+
+    .nav-item:last-child {
+      border-right: none;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: #777;
+    }
+
+    /* 메인 컨테이너 */
+    .main-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    /* 페이지 타이틀 */
+    .page-header {
+      background: white;
+      padding: 20px;
+      border-radius: 5px 5px 0 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-bottom: 3px solid #4285f4;
+    }
+
+    .page-title {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* 게시판 컨트롤 영역 */
+    .board-controls {
+      background: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .board-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .total-count {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .board-filters {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-select {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .write-btn {
+      background: #4285f4;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .write-btn:hover {
+      background: #3367d6;
+    }
+
+    /* 게시글 리스트 테이블 */
+    .board-table {
+      background: white;
+      width: 100%;
+      border-collapse: collapse;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .board-table th {
+      background: #f8f9fa;
+      padding: 15px 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 2px solid #eee;
+      font-size: 14px;
+    }
+
+    .board-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+    }
+
+    .board-table tr:hover {
+      background: #f9f9f9;
+    }
+
+    .post-number {
+      text-align: center;
+      color: #999;
+      width: 80px;
+    }
+
+    .post-category {
+      text-align: center;
+      width: 100px;
+    }
+
+    .category-tag {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .post-title {
+      text-align: left;
+      position: relative;
+    }
+
+    .post-title a {
+      color: #333;
+      text-decoration: none;
+      display: block;
+      padding: 5px 0;
+    }
+
+    .post-title a:hover {
+      color: #4285f4;
+    }
+
+    .post-status {
+      display: inline-block;
+      background: #ff5722;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+      margin-right: 8px;
+    }
+
+    .post-status.closed {
+      background: #9e9e9e;
+    }
+
+    .post-comments {
+      color: #ff6b6b;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    .post-author {
+      text-align: center;
+      color: #666;
+      width: 120px;
+    }
+
+    .post-date {
+      text-align: center;
+      color: #999;
+      width: 100px;
+      font-size: 13px;
+    }
+
+    .post-views {
+      text-align: center;
+      color: #999;
+      width: 80px;
+    }
+
+    /* 페이지네이션 */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 0;
+      gap: 5px;
+    }
+
+    .pagination a,
+    .pagination span {
+      display: inline-block;
+      padding: 8px 12px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      color: #666;
+      border-radius: 4px;
+    }
+
+    .pagination a:hover {
+      background: #f5f5f5;
+    }
+
+    .pagination .current {
+      background: #4285f4;
+      color: white;
+      border-color: #4285f4;
+    }
+
+    /* 공지사항 스타일 */
+    .notice-row {
+      background: #fff3e0;
+    }
+
+    .notice-row td {
+      font-weight: bold;
+    }
+
+    .post-icon {
+      margin-right: 5px;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .board-controls {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+      }
+
+      .board-filters {
+        justify-content: center;
+      }
+
+      .board-table th,
+      .board-table td {
+        padding: 8px 5px;
+        font-size: 12px;
+      }
+
+      .post-author,
+      .post-views {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo" onclick="goToHome()">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='40' viewBox='0 0 150 40'%3E%3Crect width='150' height='40' fill='%23fff' stroke='%23ddd' stroke-width='1' rx='5'/%3E%3Ctext x='75' y='25' text-anchor='middle' fill='%23666' font-size='12' font-family='Arial'%3ELOGO IMAGE%3C/text%3E%3C/svg%3E" alt="로고">
+    </div>
+    <div class="search-area">
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="공구 게시판에서 검색">
+        <button class="search-btn">🔍</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div class="nav-container">
+      <div class="nav-item active" data-page="gonggu">공구</div>
+      <div class="nav-item" data-page="event">이벤트</div>
+      <div class="nav-item" data-page="info">정보</div>
+      <div class="nav-item" data-page="community">커뮤니티</div>
+      <div class="nav-item" data-page="gallery">갤러리</div>
+      <div class="nav-item" data-page="market">장터</div>
+      <div class="nav-item" data-page="forum">포럼</div>
+      <div class="nav-item" data-page="news">뉴스</div>
+      <div class="nav-item" data-page="counsel">상담소</div>
+    </div>
+  </div>
+</div>
+
+<!-- 메인 컨테이너 -->
+<div class="main-container">
+  <!-- 페이지 헤더 -->
+  <div class="page-header">
+    <h1 class="page-title">🛒 공구 게시판</h1>
+    <p class="page-subtitle">함께 구매해서 더 저렴하게! 공동구매 정보를 공유해보세요.</p>
+  </div>
+
+  <!-- 게시판 컨트롤 -->
+  <div class="board-controls">
+    <div class="board-info">
+      <span class="total-count">전체 <strong>1,247</strong>건</span>
+    </div>
+    <div class="board-filters">
+      <select class="filter-select">
+        <option>전체 카테고리</option>
+        <option>전자제품</option>
+        <option>생활용품</option>
+        <option>식품</option>
+        <option>패션</option>
+        <option>도서</option>
+        <option>기타</option>
+      </select>
+      <select class="filter-select">
+        <option>진행중</option>
+        <option>모집완료</option>
+        <option>전체</option>
+      </select>
+      <button class="write-btn" onclick="writePost()">글쓰기</button>
+    </div>
+  </div>
+
+  <!-- 게시글 테이블 -->
+  <table class="board-table">
+    <thead>
+    <tr>
+      <th class="post-number">번호</th>
+      <th class="post-category">카테고리</th>
+      <th class="post-title">제목</th>
+      <th class="post-author">작성자</th>
+      <th class="post-date">작성일</th>
+      <th class="post-views">조회</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 공지사항 예시 -->
+    <tr class="notice-row">
+      <td class="post-number">📌</td>
+      <td class="post-category"><span class="category-tag">공지</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1)">
+          <span class="post-icon">📢</span>
+          공구 게시판 이용 안내 및 주의사항
+        </a>
+      </td>
+      <td class="post-author">관리자</td>
+      <td class="post-date">2024.08.01</td>
+      <td class="post-views">1,523</td>
+    </tr>
+
+    <!-- 일반 게시글 예시 -->
+    <tr>
+      <td class="post-number">1247</td>
+      <td class="post-category"><span class="category-tag">전자제품</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1247)">
+          <span class="post-status">모집중</span>
+          아이폰 15 Pro 케이스 공구 (20개 이상 시 30% 할인)
+          <span class="post-comments">[15]</span>
+        </a>
+      </td>
+      <td class="post-author">아이폰유저</td>
+      <td class="post-date">08.28</td>
+      <td class="post-views">342</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1246</td>
+      <td class="post-category"><span class="category-tag">생활용품</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1246)">
+          <span class="post-status closed">마감</span>
+          다이슨 청소기 V15 공구 성공! 감사합니다
+          <span class="post-comments">[45]</span>
+        </a>
+      </td>
+      <td class="post-author">깔끔한집</td>
+      <td class="post-date">08.27</td>
+      <td class="post-views">856</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1245</td>
+      <td class="post-category"><span class="category-tag">식품</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1245)">
+          <span class="post-status">모집중</span>
+          제주 한라봉 5kg 박스 공구 (현재 12명 참여)
+          <span class="post-comments">[8]</span>
+        </a>
+      </td>
+      <td class="post-author">감귤농장</td>
+      <td class="post-date">08.27</td>
+      <td class="post-views">234</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1244</td>
+      <td class="post-category"><span class="category-tag">패션</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1244)">
+          <span class="post-status">모집중</span>
+          겨울 패딩 공구 진행합니다 (브랜드 A사)
+          <span class="post-comments">[23]</span>
+        </a>
+      </td>
+      <td class="post-author">패션왕</td>
+      <td class="post-date">08.26</td>
+      <td class="post-views">567</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1243</td>
+      <td class="post-category"><span class="category-tag">도서</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1243)">
+          <span class="post-status">모집중</span>
+          프로그래밍 전문서적 세트 공구 (10권 세트)
+          <span class="post-comments">[7]</span>
+        </a>
+      </td>
+      <td class="post-author">개발자123</td>
+      <td class="post-date">08.26</td>
+      <td class="post-views">189</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1242</td>
+      <td class="post-category"><span class="category-tag">전자제품</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1242)">
+          <span class="post-status closed">마감</span>
+          갤럭시 버즈 공구 성공! 배송 완료했습니다
+          <span class="post-comments">[31]</span>
+        </a>
+      </td>
+      <td class="post-author">갤럭시매니아</td>
+      <td class="post-date">08.25</td>
+      <td class="post-views">723</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1241</td>
+      <td class="post-category"><span class="category-tag">기타</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1241)">
+          <span class="post-status">모집중</span>
+          캠핑용 텐트 공구 모집 (4인용 대형 텐트)
+          <span class="post-comments">[12]</span>
+        </a>
+      </td>
+      <td class="post-author">캠핑러버</td>
+      <td class="post-date">08.25</td>
+      <td class="post-views">445</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1240</td>
+      <td class="post-category"><span class="category-tag">생활용품</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1240)">
+          <span class="post-status">모집중</span>
+          친환경 세제 세트 공구 (대용량 5L 세트)
+          <span class="post-comments">[18]</span>
+        </a>
+      </td>
+      <td class="post-author">친환경맘</td>
+      <td class="post-date">08.24</td>
+      <td class="post-views">312</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1239</td>
+      <td class="post-category"><span class="category-tag">패션</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1239)">
+          <span class="post-status">모집중</span>
+          명품 선글라스 공구 (레이밴, 오클리 등)
+          <span class="post-comments">[5]</span>
+        </a>
+      </td>
+      <td class="post-author">선글라스킹</td>
+      <td class="post-date">08.24</td>
+      <td class="post-views">198</td>
+    </tr>
+
+    <tr>
+      <td class="post-number">1238</td>
+      <td class="post-category"><span class="category-tag">식품</span></td>
+      <td class="post-title">
+        <a href="#" onclick="viewPost(1238)">
+          <span class="post-status closed">마감</span>
+          수제 쿠키 세트 공구 완료 - 픽업 안내
+          <span class="post-comments">[27]</span>
+        </a>
+      </td>
+      <td class="post-author">쿠키메이커</td>
+      <td class="post-date">08.23</td>
+      <td class="post-views">634</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- 페이지네이션 -->
+  <div class="pagination">
+    <a href="#" onclick="goToPage(1)">«</a>
+    <a href="#" onclick="goToPage(1)">‹</a>
+    <span class="current">1</span>
+    <a href="#" onclick="goToPage(2)">2</a>
+    <a href="#" onclick="goToPage(3)">3</a>
+    <a href="#" onclick="goToPage(4)">4</a>
+    <a href="#" onclick="goToPage(5)">5</a>
+    <a href="#" onclick="goToPage(2)">›</a>
+    <a href="#" onclick="goToPage(125)">»</a>
+  </div>
+</div>
+
+<script>
+  // 홈으로 이동
+  function goToHome() {
+    console.log('메인 페이지로 이동');
+    // window.location.href = '/'; // 실제 구현시 사용
+  }
+
+  // 게시글 보기
+  function viewPost(postId) {
+    console.log('게시글 보기:', postId);
+    // window.location.href = `/gonggu/view/${postId}`; // 실제 구현시 사용
+  }
+
+  // 글쓰기
+  function writePost() {
+    console.log('글쓰기 페이지로 이동');
+    // window.location.href = '/gonggu/write'; // 실제 구현시 사용
+  }
+
+  // 페이지 이동
+  function goToPage(page) {
+    console.log('페이지 이동:', page);
+    // window.location.href = `/gonggu?page=${page}`; // 실제 구현시 사용
+  }
+
+  // 메뉴 클릭 이벤트
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function() {
+      const page = this.getAttribute('data-page');
+      console.log('메뉴 클릭:', page);
+
+      // 활성 메뉴 변경
+      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+      this.classList.add('active');
+
+      // 실제 구현시: 각 페이지로 이동
+      // window.location.href = `/${page}`;
+    });
+  });
+
+  // 검색 기능
+  document.querySelector('.search-btn').addEventListener('click', function() {
+    const query = document.querySelector('.search-input').value;
+    if (query.trim()) {
+      console.log('공구 게시판 검색:', query);
+      // 실제 구현시: 검색 API 호출
+      // window.location.href = `/gonggu/search?q=${encodeURIComponent(query)}`;
+    }
+  });
+
+  document.querySelector('.search-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      document.querySelector('.search-btn').click();
+    }
+  });
+
+  // 필터 변경 이벤트
+  document.querySelectorAll('.filter-select').forEach(select => {
+    select.addEventListener('change', function() {
+      console.log('필터 변경:', this.value);
+      // 실제 구현시: 필터링된 목록 로드
+    });
+  });
+</script>
+</body>
+</html>
